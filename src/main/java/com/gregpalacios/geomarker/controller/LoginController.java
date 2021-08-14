@@ -69,7 +69,7 @@ public class LoginController {
 			mailDTO.setSubject("GeoMarker - Restablecer Contraseña");
 
 			Map<String, Object> model = new HashMap<>();
-			String resetUrl = webUrl + "/#/recuperar/" + token.getToken();
+			String resetUrl = webUrl + "/#/cambiar/" + token.getToken();
 			model.put("user", token.getUser().getNombres());
 			model.put("resetUrl", resetUrl);
 			model.put("webUrl", webUrl);
