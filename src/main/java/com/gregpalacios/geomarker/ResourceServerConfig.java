@@ -39,6 +39,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/api/capas/icono/**" ).permitAll()
                 .antMatchers("/api/capas/**" ).authenticated()
                 .antMatchers("/api/ubicacion/**" ).authenticated()
+                .antMatchers("/api/dispositivos/**" ).authenticated()
                 .antMatchers("/api/tokens/anular/**" ).permitAll()
                 .antMatchers("/api/tokens/**" ).authenticated();
     }
