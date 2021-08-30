@@ -1,13 +1,17 @@
 package com.gregpalacios.geomarker.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gregpalacios.geomarker.exception.ModeloNotFoundException;
 import com.gregpalacios.geomarker.model.Dispositivo;
 import com.gregpalacios.geomarker.service.IDispositivoService;
+import com.gregpalacios.geomarker.util.ExcelGeneratorDispositivo;
 
 @RestController
 @RequestMapping("/api/dispositivos")
@@ -80,4 +85,16 @@ public class DispositivoController {
 		service.eliminar(id);
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
+	
+	@GetMapping("/descargar")
+	public ResponseEntity<InputStreamResource> descargar() throws Exception, IOException {
+		List<Dispositivo> lista = service.listar();
+    
+	    ByteArrayInputStream in = ExcelGeneratorDispositivo.listadoToExcel(lista);
+	    
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Content-Disposition", "attachment; filename=dispositivos.xlsx");
+	    
+	    return ResponseEntity.ok().headers(headers).body(new InputStreamResource(in));
+    }
 }

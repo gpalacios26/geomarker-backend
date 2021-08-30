@@ -27,6 +27,12 @@ public class Dispositivo {
 	@Column(name = "nombre", nullable = false)
 	private String nombre;
 	
+	@Column(name = "descripcion", nullable = true)
+	private String descripcion;
+	
+	@Column(name = "correo", nullable = false, unique = true)
+	private String correo;
+	
 	@Column(name = "token", nullable = false)
 	private String token;
 	
@@ -62,6 +68,22 @@ public class Dispositivo {
 		this.nombre = nombre;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getCorreo() {
+		return correo;
+	}
+
+	public void setCorreo(String correo) {
+		this.correo = correo;
+	}
+
 	public String getToken() {
 		return token;
 	}
@@ -88,7 +110,8 @@ public class Dispositivo {
 
 	@Override
 	public String toString() {
-		return "Dispositivo [idDispositivo=" + idDispositivo + ", codigo=" + codigo + ", nombre=" + nombre + ", token="
-				+ token + ", usuario=" + usuario + ", fecha=" + fecha + "]";
+		return "Dispositivo [idDispositivo=" + idDispositivo + ", codigo=" + codigo + ", nombre=" + nombre
+				+ ", descripcion=" + descripcion + ", correo=" + correo + ", token=" + token + ", usuario=" + usuario
+				+ ", fecha=" + fecha + "]";
 	}
 }
