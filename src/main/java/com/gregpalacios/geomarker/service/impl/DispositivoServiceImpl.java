@@ -26,4 +26,9 @@ public class DispositivoServiceImpl extends CRUDImpl<Dispositivo, Integer> imple
 		return repo.listarPaginado(pageable);
 	}
 
+	@Override
+	public Dispositivo loginDispositivo(String correo, String token) throws Exception {
+		return repo.loginDispositivo(correo, token);
+	}
+
 }
