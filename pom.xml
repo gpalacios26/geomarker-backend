@@ -16,7 +16,7 @@
 	
 	<!-- Para wildfly https://thepracticaldeveloper.com/2018/08/06/how-to-deploy-a-spring-boot-war-in-wildfly-jboss/ 
 		https://github.com/mechero/spring-boot-jboss-wildfly/blob/master/pom.xml -->
-	<packaging>war</packaging>
+	<!--  <packaging>war</packaging> -->
 	
 	<properties>
 		<java.version>1.8</java.version>
@@ -30,12 +30,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
+			<!--  <exclusions>
 		        <exclusion>
 		          <groupId>org.springframework.boot</groupId>
 		          <artifactId>spring-boot-starter-tomcat</artifactId>
 		        </exclusion>
-		     </exclusions>
+		     </exclusions> -->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -48,11 +48,11 @@
 		
 		<!-- We need to include the javax.servlet API specs, the implementation 
          will be provided by Wildfly / JBoss / Tomcat -->
-	    <dependency>
+	    <!--  <dependency>
 	      <groupId>javax.servlet</groupId>
 	      <artifactId>javax.servlet-api</artifactId>
 	      <scope>provided</scope>
-	    </dependency>
+	    </dependency> -->
 		
 		<!-- Seguridad -->
 		<dependency>
