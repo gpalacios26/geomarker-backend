@@ -22,8 +22,11 @@ import com.gregpalacios.geomarker.exception.ModeloNotFoundException;
 import com.gregpalacios.geomarker.model.Usuario;
 import com.gregpalacios.geomarker.service.IUsuarioService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/usuarios")
+@Tag(name = "Usuario Controller", description = "Operaciones para el manejo de la gestión de usuarios")
 public class UsuarioController {
 
 	@Autowired
@@ -35,13 +38,13 @@ public class UsuarioController {
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() throws Exception {
 		List<Usuario> lista = service.listar();
-		return new ResponseEntity<List<Usuario>>(lista, HttpStatus.OK);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 
 	@GetMapping("/pageable")
 	public ResponseEntity<Page<Usuario>> listarPageable(Pageable pageable) throws Exception {
 		Page<Usuario> lista = service.listarPageable(pageable);
-		return new ResponseEntity<Page<Usuario>>(lista, HttpStatus.OK);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
@@ -52,7 +55,7 @@ public class UsuarioController {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
 		}
 
-		return new ResponseEntity<Usuario>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -64,7 +67,7 @@ public class UsuarioController {
 		Usuario obj = service.registrar(user);
 		obj.setPassword(null);
 
-		return new ResponseEntity<Usuario>(obj, HttpStatus.CREATED);
+		return new ResponseEntity<>(obj, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/correo/{correo}")
@@ -75,7 +78,7 @@ public class UsuarioController {
 			throw new ModeloNotFoundException("CORREO NO ENCONTRADO " + correo);
 		}
 
-		return new ResponseEntity<Usuario>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
 
 	@PutMapping("/modificar/estado")
@@ -86,10 +89,10 @@ public class UsuarioController {
 			service.cambiarEstado(data.isEnabled(), data.getUsername());
 			rpta = 1;
 		} catch (Exception e) {
-			return new ResponseEntity<Integer>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 
 	@PutMapping("/modificar/clave")
@@ -100,10 +103,10 @@ public class UsuarioController {
 			service.cambiarClave(data.getPassword(), data.getUsername());
 			rpta = 1;
 		} catch (Exception e) {
-			return new ResponseEntity<Integer>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 
 	@PutMapping("/modificar/perfil")
@@ -114,9 +117,9 @@ public class UsuarioController {
 			service.cambiarDatos(data.getNombres(), data.getApellidos(), data.getUsername());
 			rpta = 1;
 		} catch (Exception e) {
-			return new ResponseEntity<Integer>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 }

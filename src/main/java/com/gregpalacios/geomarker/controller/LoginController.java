@@ -22,8 +22,11 @@ import com.gregpalacios.geomarker.service.IUsuarioService;
 import com.gregpalacios.geomarker.util.EmailUtil;
 import com.gregpalacios.geomarker.util.MailDTO;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/login")
+@Tag(name = "Login Controller", description = "Operaciones para el manejo del login al sistema")
 public class LoginController {
 
 	@Autowired
@@ -44,7 +47,7 @@ public class LoginController {
 			rpta = 1;
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 
 	@PostMapping("/enviar/correo")
@@ -80,7 +83,7 @@ public class LoginController {
 			rpta = 1;
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 
 	@GetMapping("/verificar/{token}")
@@ -97,14 +100,15 @@ public class LoginController {
 				}
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<Integer>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 
 	@PostMapping("/restablecer/{token}")
-	public ResponseEntity<Integer> restablecerClave(@PathVariable("token") String token, HttpServletRequest request) throws Exception {
+	public ResponseEntity<Integer> restablecerClave(@PathVariable("token") String token, HttpServletRequest request)
+			throws Exception {
 		int rpta = 0;
 
 		String clave = request.getParameter("clave");
@@ -116,9 +120,9 @@ public class LoginController {
 
 			rpta = 1;
 		} catch (Exception e) {
-			return new ResponseEntity<Integer>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(rpta, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		return new ResponseEntity<Integer>(rpta, HttpStatus.OK);
+		return new ResponseEntity<>(rpta, HttpStatus.OK);
 	}
 }

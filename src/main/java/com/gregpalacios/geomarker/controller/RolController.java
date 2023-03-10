@@ -20,19 +20,38 @@ import com.gregpalacios.geomarker.exception.ModeloNotFoundException;
 import com.gregpalacios.geomarker.model.Rol;
 import com.gregpalacios.geomarker.service.IRolService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/roles")
+@Tag(name = "Rol Controller", description = "Operaciones para el manejo de los roles")
 public class RolController {
 
 	@Autowired
 	private IRolService service;
-	
+
+	@Operation(summary = "Listar todos los roles")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista recuperada exitosamente", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para ver este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso que estaba tratando de alcanzar", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "No se encuentra el recurso que intentabas alcanzar", content = @Content()) })
 	@GetMapping
 	public ResponseEntity<List<Rol>> listar() throws Exception {
 		List<Rol> lista = service.listar();
-		return new ResponseEntity<List<Rol>>(lista, HttpStatus.OK);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
-	
+
+	@Operation(summary = "Obtener rol por ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Objeto recuperado exitosamente", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para ver este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso que estaba tratando de alcanzar", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "No se encuentra el recurso que intentabas alcanzar", content = @Content()) })
 	@GetMapping("/{id}")
 	public ResponseEntity<Rol> listarPorId(@PathVariable("id") Integer id) throws Exception {
 		Rol obj = service.listarPorId(id);
@@ -41,21 +60,39 @@ public class RolController {
 			throw new ModeloNotFoundException("ID NO ENCONTRADO " + id);
 		}
 
-		return new ResponseEntity<Rol>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
-	
+
+	@Operation(summary = "Registrar rol")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Registrado con éxito.", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para acceder a este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "Recurso no encontrado", content = @Content()) })
 	@PostMapping
 	public ResponseEntity<Rol> registrar(@Valid @RequestBody Rol data) throws Exception {
 		Rol obj = service.registrar(data);
-		return new ResponseEntity<Rol>(obj, HttpStatus.CREATED);
+		return new ResponseEntity<>(obj, HttpStatus.CREATED);
 	}
 
+	@Operation(summary = "Actualizar rol")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Actualizado con éxito.", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para acceder a este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "Recurso no encontrado", content = @Content()) })
 	@PutMapping
 	public ResponseEntity<Rol> modificar(@Valid @RequestBody Rol data) throws Exception {
 		Rol obj = service.modificar(data);
-		return new ResponseEntity<Rol>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
-	
+
+	@Operation(summary = "Eliminar rol por ID")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Eliminado con éxito.", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para acceder a este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "Recurso no encontrado", content = @Content()) })
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> eliminar(@PathVariable("id") Integer id) throws Exception {
 		Rol obj = service.listarPorId(id);
@@ -65,6 +102,6 @@ public class RolController {
 		}
 
 		service.eliminar(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 }

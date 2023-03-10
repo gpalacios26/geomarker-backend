@@ -21,16 +21,29 @@ import com.gregpalacios.geomarker.model.Tracker;
 import com.gregpalacios.geomarker.service.IDispositivoService;
 import com.gregpalacios.geomarker.service.ITrackerService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/tracker")
+@Tag(name = "Tracker Controller", description = "Operaciones para el manejo del traker de geolocalización")
 public class TrackerController {
-	
+
 	@Autowired
 	private IDispositivoService loginService;
-	
+
 	@Autowired
 	private ITrackerService trackerService;
-	
+
+	@Operation(summary = "Obtener acceso al traker")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Objeto recuperado exitosamente", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para ver este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso que estaba tratando de alcanzar", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "No se encuentra el recurso que intentabas alcanzar", content = @Content()) })
 	@PostMapping("/login")
 	public ResponseEntity<Dispositivo> obtenerPorCorreo(HttpServletRequest request) throws Exception {
 		String correo = request.getParameter("correo");
@@ -41,20 +54,32 @@ public class TrackerController {
 			throw new ModeloNotFoundException("DISPOSITIVO NO ENCONTRADO");
 		}
 
-		return new ResponseEntity<Dispositivo>(obj, HttpStatus.OK);
+		return new ResponseEntity<>(obj, HttpStatus.OK);
 	}
-	
+
+	@Operation(summary = "Listar todas las geolocalizaciones")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Lista recuperada exitosamente", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para ver este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso que estaba tratando de alcanzar", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "No se encuentra el recurso que intentabas alcanzar", content = @Content()) })
 	@GetMapping("/listar")
 	public ResponseEntity<List<Tracker>> listar() throws Exception {
 		List<Tracker> lista = trackerService.listar();
-		return new ResponseEntity<List<Tracker>>(lista, HttpStatus.OK);
+		return new ResponseEntity<>(lista, HttpStatus.OK);
 	}
-	
+
+	@Operation(summary = "Registrar traker geolocalización")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "201", description = "Registrado con éxito.", content = @Content()),
+			@ApiResponse(responseCode = "401", description = "No estas autorizado para acceder a este recurso", content = @Content()),
+			@ApiResponse(responseCode = "403", description = "Está prohibido acceder al recurso", content = @Content()),
+			@ApiResponse(responseCode = "404", description = "Recurso no encontrado", content = @Content()) })
 	@PostMapping("/registrar")
 	public ResponseEntity<Tracker> registrar(@Valid @RequestBody Tracker data) throws Exception {
 		data.setFecha(LocalDateTime.now());
-		
+
 		Tracker obj = trackerService.registrar(data);
-		return new ResponseEntity<Tracker>(obj, HttpStatus.CREATED);
+		return new ResponseEntity<>(obj, HttpStatus.CREATED);
 	}
 }

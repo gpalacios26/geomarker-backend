@@ -16,7 +16,7 @@
 	
 	<!-- Para wildfly https://thepracticaldeveloper.com/2018/08/06/how-to-deploy-a-spring-boot-war-in-wildfly-jboss/ 
 		https://github.com/mechero/spring-boot-jboss-wildfly/blob/master/pom.xml -->
-	<!--  <packaging>war</packaging> -->
+	<packaging>jar</packaging>
 	
 	<properties>
 		<java.version>1.8</java.version>
@@ -53,6 +53,13 @@
 	      <artifactId>javax.servlet-api</artifactId>
 	      <scope>provided</scope>
 	    </dependency> -->
+		
+		<!-- API Documentación -->
+		<dependency>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-ui</artifactId>
+		    <version>1.6.4</version>
+		</dependency>
 		
 		<!-- Seguridad -->
 		<dependency>
